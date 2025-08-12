@@ -1,0 +1,18 @@
+_target_: src.modules.search_manager.SearchManager
+openai_api_key: ${openai_api_key}
+serpapi_api_key: ${serpapi_api_key}
+temperature: ${temperature}
+search_template: |
+  You are a search assistant. Based on the query "{query}", provide the following:
+  1. Extract the product names from the search results.
+  2. Summarize the list of products in order of relevance and importance.
+  3. Only list the product names in a numbered format.
+sorting_template: |
+  You are a sorting assistant. The raw search results are:
+  {results}
+
+  Please perform the following:
+  1. Extract only the product names from the results.
+  2. Rank the product names in descending order of relevance and importance.
+  3. Provide the output in a clean, numbered list format without additional explanations.
+serpapi_params: ${serpapi_params}

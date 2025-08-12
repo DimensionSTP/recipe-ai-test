@@ -1,0 +1,20 @@
+# @package _global_
+defaults:
+  - search_manager: search_manager
+  - hydra: hydra
+
+package_name: chatbot-demo
+usage: RecipeAI
+
+openai_api_key: ${oc.env:OPENAI_API_KEY}
+serpapi_api_key: ${oc.env:SERPAPI_API_KEY}
+temperature: 0.9
+serpapi_params:
+  engine: google
+
+table_column_name: ingredients
+
+project_name: ${package_name}-${usage}
+
+run_name: ${project_name}
+work_dir: ${hydra:runtime.cwd}
