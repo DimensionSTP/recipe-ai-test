@@ -1,0 +1,53 @@
+# @package _global_
+defaults:
+  - module: recommendation_manager
+  - module/model: model
+  - module/retrieval: vector_store
+  - hydra: hydra
+
+package_name: recipe-ai-test
+project_dir: ${oc.env:PROJECT_DIR}/${package_name}
+connected_dir: ${oc.env:CONNECTED_DIR}/${package_name}
+usage: RecipeAI
+
+seed: 2025
+
+data_path: ${connected_dir}/data
+indices_name: data_base_only.faiss
+items_name: data_base_only.csv
+
+lab_id_column_name: lab_no
+target_column_name: ingredient_en
+amount_column_name: amount
+
+distance_column_name: distance
+score_column_name: score
+
+role_column_name: role
+content_column_name: content
+
+model_family: Qwen/Qwen3
+embedding_model_id: ${model_family}-Embedding-4B
+reranker_model_id: ${model_family}-Reranker-4B
+generator_model_id: ${model_family}-8B
+
+dim: 2560
+num_gpus: ${oc.decode:${oc.env:DEVICES}}
+
+max_length: 8192
+max_new_tokens: 2048
+do_sample: true
+generation_config:
+  temperature: 0.6
+  top_p: 0.95
+  top_k: 20
+
+instruction:
+  embedding: "Given a cosmetic ingredients listed in the given order of content, find the ingredient list that matches the most formulation, application, and base."
+  reranker: "Given a cosmetic ingredients listed in the given order of content, find the ingredient list that matches the most formulation, application, and base."
+  generator: "Given a cosmetic ingredients listed in the given order of content, find the ingredient list that matches the most formulation, application, and base."
+
+project_name: ${package_name}-${usage}
+
+run_name: ${project_name}
+work_dir: ${hydra:runtime.cwd}
