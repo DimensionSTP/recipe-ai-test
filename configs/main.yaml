@@ -1,6 +1,6 @@
 # @package _global_
 defaults:
-  - module: recommendation_manager
+  - module: manager
   - module/model: model
   - module/retrieval: vector_store
   - hydra: hydra
@@ -9,6 +9,8 @@ package_name: recipe-ai-test
 project_dir: ${oc.env:PROJECT_DIR}/${package_name}
 connected_dir: ${oc.env:CONNECTED_DIR}/${package_name}
 usage: RecipeAI
+
+manager_type: recommendation
 
 seed: 2025
 
