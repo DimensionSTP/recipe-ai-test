@@ -1,9 +1,7 @@
-import os
-
 from omegaconf import DictConfig
 from hydra.utils import instantiate
 
-from ..modules.search_manager import SearchManager
+from ..modules.manager import RecommendationManager
 
 
 class SetUp:
@@ -13,8 +11,8 @@ class SetUp:
     ) -> None:
         self.config = config
 
-    def get_search_manager(self) -> SearchManager:
-        search_manager: SearchManager = instantiate(
-            self.config.search_manager,
+    def get_recommendation_manager(self) -> RecommendationManager:
+        recommendation_manager: RecommendationManager = instantiate(
+            self.config.recommendation_manager,
         )
-        return search_manager
+        return recommendation_manager
