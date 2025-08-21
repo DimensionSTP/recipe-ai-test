@@ -3,14 +3,15 @@
 ## For (s)LLM model scaling
 
 ### Dataset
-HuggingFace Korean dataset(preprocessed as instruction, input, and response)
+
+Cosmecca Recipe dataset
 
 ### Quick setup
 
 ```bash
 # clone project
-git clone https://github.com/DimensionSTP/chatbot-demo.git
-cd chatbot-demo
+git clone https://github.com/DimensionSTP/recipe-ai-test.git
+cd recipe-ai-test
 
 # [OPTIONAL] create conda environment
 conda create -n myenv python=3.10 -y
@@ -21,14 +22,17 @@ pip install -r requirements.txt
 ```
 
 ### .env file setting
+
 ```shell
-OPENAI_API_KEY={OPENAI_API_KEY}
-SERPAPI_API_KEY={SERPAPI_API_KEY}
+PROJECT_DIR={PROJECT_DIR}
+CONNECTED_DIR={CONNECTED_DIR}
+DEVICES={DEVICES}
 ```
 
 ### Run
 
 * Run demo
+
 ```shell
 streamlit run app.py
 ```
