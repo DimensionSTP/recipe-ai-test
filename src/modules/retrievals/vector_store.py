@@ -59,6 +59,11 @@ class FaissIndex:
         return candidates
 
     def save(self) -> None:
+        os.makedirs(
+            self.data_path,
+            exist_ok=True,
+        )
+
         faiss.write_index(
             self.index,
             self.indices_path,
