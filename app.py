@@ -13,7 +13,7 @@ warnings.filterwarnings("ignore")
 from hydra import initialize, compose
 from hydra.core.global_hydra import GlobalHydra
 
-from src.pipelines.pipeline import pipeline
+from src.pipelines import app_pipeline
 
 
 def main(
@@ -31,7 +31,7 @@ def main(
 
     initialize_hydra()
     config = compose(config_name=config_name)
-    return pipeline(config)
+    return app_pipeline(config)
 
 
 if __name__ == "__main__":
