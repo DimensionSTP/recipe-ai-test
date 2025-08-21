@@ -37,7 +37,7 @@ def main(
 if __name__ == "__main__":
     CONFIG_PATH = "configs/"
     JOB_NAME = "streamlit_demo"
-    CONFIG_NAME = "app.yaml"
+    CONFIG_NAME = "main.yaml"
     main(
         config_path=CONFIG_PATH,
         job_name=JOB_NAME,
