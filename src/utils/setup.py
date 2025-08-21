@@ -1,3 +1,5 @@
+from typing import Union
+
 from omegaconf import DictConfig
 from hydra.utils import instantiate
 
@@ -11,8 +13,8 @@ class SetUp:
     ) -> None:
         self.config = config
 
-    def get_recommendation_manager(self) -> RecommendationManager:
-        recommendation_manager: RecommendationManager = instantiate(
-            self.config.recommendation_manager,
+    def get_manager(self) -> Union[RecommendationManager, None]:
+        manager: RecommendationManager = instantiate(
+            self.config.manager[self.config.manager_type],
         )
-        return recommendation_manager
+        return manager
