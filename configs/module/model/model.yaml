@@ -1,0 +1,26 @@
+embedding:
+  _target_: src.modules.models.VllmEmbedding
+  model_id: ${embedding_model_id}
+  num_gpus: ${num_gpus}
+  seed: ${seed}
+  instruction: ${instruction.embedding}
+
+reranker:
+  _target_: src.modules.models.VllmReranker
+  model_id: ${reranker_model_id}
+  num_gpus: ${num_gpus}
+  seed: ${seed}
+  instruction: ${instruction.reranker}
+  max_length: ${max_length}
+
+generator:
+  _target_: src.modules.models.VllmGenerator
+  model_id: ${generator_model_id}
+  num_gpus: ${num_gpus}
+  seed: ${seed}
+  role_column_name: ${role_column_name}
+  content_column_name: ${content_column_name}
+  instruction: ${instruction.generator}
+  max_new_tokens: ${max_new_tokens}
+  do_sample: ${do_sample}
+  generation_config: ${generation_config}
