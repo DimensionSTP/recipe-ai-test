@@ -3,7 +3,7 @@ from typing import Union
 from omegaconf import DictConfig
 from hydra.utils import instantiate
 
-from ..modules.manager import RecommendationManager
+from ..managers import RecommendationManager
 
 
 class SetUp:
