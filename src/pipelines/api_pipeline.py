@@ -8,7 +8,7 @@ def pipeline(
 ) -> None:
     setup = SetUp(config)
 
-    manager = setup.get_recommendation_manager()
+    manager = setup.get_manager()
 
     print("Recipe AI Demo")
 
