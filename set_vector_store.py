@@ -26,7 +26,7 @@ def set_vector_store(
         config.model.embedding,
     )
 
-    queries = index.df[index.target_column_name].tolist()
+    queries = index.df[config.target_column_name].tolist()
     embeddings = [embedding(query=query) for query in queries]
     index.add(embeddings=embeddings)
     index.save()
