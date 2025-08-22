@@ -1,8 +1,8 @@
 # @package _global_
 defaults:
-  - module: manager
-  - module/model: model
-  - module/retrieval: vector_store
+  - database: vector_store
+  - model: model
+  - manager: manager
   - hydra: hydra
 
 package_name: recipe-ai-test
