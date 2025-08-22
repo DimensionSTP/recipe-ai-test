@@ -36,6 +36,9 @@ generator_model_id: ${model_family}-8B
 dim: 2560
 num_gpus: ${oc.decode:${oc.env:DEVICES}}
 
+retrieval_top_k: 10
+rerank_top_k: 5
+
 max_length: 8192
 max_new_tokens: 2048
 do_sample: true
