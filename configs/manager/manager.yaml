@@ -2,7 +2,7 @@ recommendation:
   _target_: src.managers.RecommendationManager
   embedding: ${model.embedding}
   reranker: ${model.reranker}
-  index: ${retrieval.vector_store}
+  index: ${database}
   lab_id_column_name: ${lab_id_column_name}
   target_column_name: ${target_column_name}
   score_column_name: ${score_column_name}
