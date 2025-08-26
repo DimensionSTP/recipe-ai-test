@@ -31,7 +31,7 @@ class FaissIndex:
 
         self.dim = dim
         self.index = faiss.IndexFlatIP(dim)
-        self.df = None
+        self.df = pd.read_csv(self.items_path)
 
         self.retrieval_top_k = retrieval_top_k
         self.distance_column_name = distance_column_name
@@ -76,7 +76,4 @@ class FaissIndex:
             raise FileNotFoundError(f"Missing items: {self.items_path}")
 
         index = faiss.read_index(self.indices_path)
-        df = pd.read_csv(self.items_path)
-
         self.index = index
-        self.df = df
