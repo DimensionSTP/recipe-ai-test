@@ -4,6 +4,8 @@ dotenv.load_dotenv(
     override=True,
 )
 
+import numpy as np
+
 import hydra
 from hydra.utils import instantiate
 from omegaconf import DictConfig
@@ -27,8 +29,12 @@ def set_vector_store(
     )
 
     queries = index.df[config.target_column_name].tolist()
-    embeddings = [embedding(query=query) for query in queries]
-    index.add(embeddings=embeddings)
+    embedded = [embedding(query=query) for query in queries]
+    embedded = np.array(
+        embedded,
+        dtype=np.float32,
+    )
+    index.add(embedded=embedded)
     index.save()
 
 
