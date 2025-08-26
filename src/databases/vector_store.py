@@ -38,9 +38,9 @@ class FaissIndex:
 
     def add(
         self,
-        embedding: np.ndarray,
+        embedded: np.ndarray,
     ) -> None:
-        self.index.add(embedding)
+        self.index.add(embedded)
 
     def search(
         self,
