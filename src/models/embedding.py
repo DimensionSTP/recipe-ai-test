@@ -34,8 +34,12 @@ class VllmEmbedding:
     ) -> np.ndarray:
         input_text = self.get_detailed_instruct(query=query)
         output = self.llm.embed(input_text)
-        embedding = output.outputs.embedding
-        return embedding.cpu().numpy(dtype=np.float32)
+        embedding = output[0].outputs.embedding
+        embedding = np.array(
+            embedding,
+            dtype=np.float32,
+        )
+        return embedding
 
     def get_detailed_instruct(
         self,
