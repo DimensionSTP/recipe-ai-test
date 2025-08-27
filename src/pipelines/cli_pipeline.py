@@ -16,11 +16,19 @@ def pipeline(
     print(f"Recommendation mode: {option}")
 
     if option == "Lab number based recommendation":
-        lab_id = input("Enter the lab number to recommend for: ")
+        while True:
+            lab_id = input(
+                "Enter the lab number to recommend for (or 'q', 'quit', 'exit' to quit): "
+            ).strip()
 
-        if not lab_id:
-            print("Warning: Enter the lab number to recommend for.")
-        else:
+            if not lab_id:
+                print("Warning: Enter the lab number to recommend for.")
+                continue
+
+            if lab_id.lower() in {"q", "quit", "exit"}:
+                print("Exiting. Bye!")
+                break
+
             results = manager.recommend_and_summarize(lab_id=lab_id)
             print("\nSummary recommendation results")
             print(results)
