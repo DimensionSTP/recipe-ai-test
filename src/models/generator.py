@@ -12,6 +12,8 @@ class VllmGenerator:
         model_id: str,
         num_gpus: int,
         seed: int,
+        max_length: int,
+        gpu_memory_utilization: float,
         role_column_name: str,
         content_column_name: str,
         instruction: str,
@@ -46,9 +48,11 @@ class VllmGenerator:
         tp = 1 if device_id is not None else num_gpus
         self.llm = LLM(
             model=model_id,
-            tensor_parallel_size=num_gpus,
+            tensor_parallel_size=tp,
             seed=seed,
             trust_remote_code=True,
+            max_model_len=max_length,
+            gpu_memory_utilization=gpu_memory_utilization,
         )
 
         self.tokenizer = AutoTokenizer.from_pretrained(
