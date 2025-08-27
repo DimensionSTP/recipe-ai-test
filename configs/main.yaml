@@ -53,6 +53,22 @@ instruction:
   reranker: "Given a cosmetic ingredients listed in the given order of content, find the ingredient list that matches the most formulation, application, and base."
   generator: "Given a cosmetic ingredients listed in the given order of content, find the ingredient list that matches the most formulation, application, and base."
 
+top_k:
+  retrieval: 10
+  rerank: 5
+
+device_id:
+  embedding: 0
+  reranker: 0
+  generator: 1
+master_addr: 127.0.0.1
+master_port:
+  embedding: 29501
+  reranker: 29511
+  generator: 29521
+nccl_socket_ifname: lo
+nccl_ib_disable: 1
+
 project_name: ${package_name}-${usage}
 
 run_name: ${project_name}
