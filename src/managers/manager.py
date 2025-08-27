@@ -1,4 +1,4 @@
-from typing import Dict, List, Any
+from typing import Dict, List, Any, Optional
 
 from ..models import VllmEmbedding, VllmReranker
 from ..databases import FaissIndex
@@ -79,11 +79,17 @@ class RecommendationManager:
             self.target_column_name
         ]
         candidates = self.retrieve(query=query)
+        if candidates is None:
+            return "No matching lab_id found."
+
         reranked_candidates = self.rerank(
             query=query,
             candidates=candidates,
             category_value=category_value,
         )
+        if reranked_candidates is None:
+            return "No matching lab_id found."
+
         lines = [
             f"{i+1}. {reranked_candidate[self.lab_id_column_name]} (score: {reranked_candidate[self.score_column_name]:.3f})"
             for i, reranked_candidate in enumerate(reranked_candidates)
