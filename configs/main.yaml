@@ -29,9 +29,10 @@ role_column_name: role
 content_column_name: content
 
 model_family: Qwen/Qwen3
-embedding_model_id: ${model_family}-Embedding-4B
-reranker_model_id: ${model_family}-Reranker-4B
-generator_model_id: ${model_family}-8B
+model_id:
+  embedding: ${model_family}-Embedding-4B
+  reranker: ${model_family}-Reranker-4B
+  generator: ${model_family}-8B
 
 dim: 2560
 num_gpus: ${oc.decode:${oc.env:DEVICES}}
