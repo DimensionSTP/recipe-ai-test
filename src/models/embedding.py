@@ -12,6 +12,8 @@ class VllmEmbedding:
         model_id: str,
         num_gpus: int,
         seed: int,
+        max_length: int,
+        gpu_memory_utilization: float,
         instruction: str,
         device_id: Optional[int],
         master_addr: Optional[str],
@@ -42,9 +44,11 @@ class VllmEmbedding:
         self.llm = LLM(
             model=model_id,
             task="embed",
-            tensor_parallel_size=num_gpus,
+            tensor_parallel_size=tp,
             seed=seed,
             trust_remote_code=True,
+            max_model_len=max_length,
+            gpu_memory_utilization=gpu_memory_utilization,
         )
 
         self.instruction = instruction
