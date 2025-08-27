@@ -58,7 +58,7 @@ instruction:
   generator: "Given a cosmetic ingredients listed in the given order of content, find the ingredient list that matches the most formulation, application, and base."
 
 top_k:
-  retrieval: 10
+  retrieval: 25
   rerank: 5
 
 device_id:
