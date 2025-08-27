@@ -29,7 +29,21 @@ def pipeline(
                 print("Exiting. Bye!")
                 break
 
-            results = manager.recommend_and_summarize(lab_id=lab_id)
+            category_value = input(
+                "Enter a category to restrict by (press Enter to 'all' to include all categories, or 'q', 'quit', 'exit' to quit): "
+            ).strip()
+
+            if category_value.lower() in {"q", "quit", "exit"}:
+                print("Exiting. Bye!")
+                break
+
+            if category_value.lower() == "all":
+                category_value = None
+
+            results = manager.recommend_and_summarize(
+                lab_id=lab_id,
+                category_value=category_value,
+            )
             print("\nSummary recommendation results")
             print(results)
 
