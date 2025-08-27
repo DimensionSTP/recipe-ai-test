@@ -15,8 +15,8 @@ manager_type: recommendation
 seed: 2025
 
 data_path: ${connected_dir}/data
-indices_name: data_base_only.faiss
-items_name: data_base_only.csv
+indices_name: recipe_db.faiss
+items_name: recipe_db.csv
 
 lab_id_column_name: lab_no
 target_column_name: ingredient_en
