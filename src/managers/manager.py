@@ -11,6 +11,7 @@ class RecommendationManager:
         reranker: VllmReranker,
         index: FaissIndex,
         lab_id_column_name: str,
+        category_column_name: str,
         target_column_name: str,
         score_column_name: str,
         rerank_top_k: int,
@@ -22,6 +23,7 @@ class RecommendationManager:
         self.index.load()
 
         self.lab_id_column_name = lab_id_column_name
+        self.category_column_name = category_column_name
         self.target_column_name = target_column_name
         self.score_column_name = score_column_name
 
