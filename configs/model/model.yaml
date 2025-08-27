@@ -3,6 +3,8 @@ embedding:
   model_id: ${model_id.embedding}
   num_gpus: ${num_gpus}
   seed: ${seed}
+  max_length: ${max_length}
+  gpu_memory_utilization: ${gpu_memory_utilization.embedding}
   instruction: ${instruction.embedding}
   device_id: ${device_id.embedding}
   master_addr: ${master_addr}
@@ -15,6 +17,8 @@ reranker:
   model_id: ${model_id.reranker}
   num_gpus: ${num_gpus}
   seed: ${seed}
+  max_length: ${max_length}
+  gpu_memory_utilization: ${gpu_memory_utilization.reranker}
   instruction: ${instruction.reranker}
   device_id: ${device_id.reranker}
   master_addr: ${master_addr}
@@ -27,6 +31,8 @@ generator:
   model_id: ${model_id.generator}
   num_gpus: ${num_gpus}
   seed: ${seed}
+  max_length: ${max_length}
+  gpu_memory_utilization: ${gpu_memory_utilization.generator}
   role_column_name: ${role_column_name}
   content_column_name: ${content_column_name}
   instruction: ${instruction.generator}
