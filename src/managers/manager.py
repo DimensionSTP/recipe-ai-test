@@ -41,7 +41,18 @@ class RecommendationManager:
         self,
         query: str,
         candidates: List[Dict[str, Any]],
-    ) -> List[Dict[str, Any]]:
+        category_value: Optional[str],
+    ) -> Optional[List[Dict[str, Any]]]:
+        if category_value is not None:
+            candidates = [
+                candidate
+                for candidate in candidates
+                if candidate.get(self.category_column_name) == category_value
+            ]
+
+        if not candidates:
+            return None
+
         target_candidates = [
             candidate[self.target_column_name] for candidate in candidates
         ]
@@ -62,6 +73,7 @@ class RecommendationManager:
     def recommend_and_summarize(
         self,
         lab_id: str,
+        category_value: Optional[str],
     ) -> str:
         query = self.index.df[self.index.df[self.lab_id_column_name] == lab_id][
             self.target_column_name
@@ -70,6 +82,7 @@ class RecommendationManager:
         reranked_candidates = self.rerank(
             query=query,
             candidates=candidates,
+            category_value=category_value,
         )
         lines = [
             f"{i+1}. {reranked_candidate[self.lab_id_column_name]} (score: {reranked_candidate[self.score_column_name]:.3f})"
