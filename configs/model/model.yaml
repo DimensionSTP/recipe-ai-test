@@ -1,13 +1,13 @@
 embedding:
   _target_: src.models.VllmEmbedding
-  model_id: ${embedding_model_id}
+  model_id: ${model_id.embedding}
   num_gpus: ${num_gpus}
   seed: ${seed}
   instruction: ${instruction.embedding}
 
 reranker:
   _target_: src.models.VllmReranker
-  model_id: ${reranker_model_id}
+  model_id: ${model_id.reranker}
   num_gpus: ${num_gpus}
   seed: ${seed}
   instruction: ${instruction.reranker}
@@ -15,7 +15,7 @@ reranker:
 
 generator:
   _target_: src.models.VllmGenerator
-  model_id: ${generator_model_id}
+  model_id: ${model_id.generator}
   num_gpus: ${num_gpus}
   seed: ${seed}
   role_column_name: ${role_column_name}
