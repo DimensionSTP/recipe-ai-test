@@ -46,6 +46,13 @@ class FaissIndex:
         self,
         query_embedding: np.ndarray,
     ) -> List[Dict[str, Any]]:
+        if query_embedding.ndim == 1:
+            query_embedding = query_embedding.reshape(1, -1).astype(np.float32)
+        elif query_embedding.ndim == 2:
+            query_embedding = query_embedding.astype(np.float32)
+        else:
+            raise ValueError("query_embedding must be 1D or 2D array")
+
         distances, indices = self.index.search(
             query_embedding,
             k=self.retrieval_top_k,
