@@ -4,6 +4,7 @@ recommendation:
   reranker: ${model.reranker}
   index: ${database}
   lab_id_column_name: ${lab_id_column_name}
+  category_column_name: ${category_column_name}
   target_column_name: ${target_column_name}
   score_column_name: ${score_column_name}
   rerank_top_k: ${top_k.rerank}
