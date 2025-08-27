@@ -15,6 +15,8 @@ class VllmReranker:
         model_id: str,
         num_gpus: int,
         seed: int,
+        max_length: int,
+        gpu_memory_utilization: float,
         instruction: str,
         device_id: Optional[int],
         master_addr: Optional[str],
@@ -45,11 +47,12 @@ class VllmReranker:
         tp = 1 if device_id is not None else num_gpus
         self.llm = LLM(
             model=model_id,
-            tensor_parallel_size=num_gpus,
+            tensor_parallel_size=tp,
             seed=seed,
             trust_remote_code=True,
-            max_model_len=10000,
+            max_model_len=self.max_length,
             enable_prefix_caching=True,
+            gpu_memory_utilization=gpu_memory_utilization,
         )
 
         self.tokenizer = AutoTokenizer.from_pretrained(
@@ -84,7 +87,6 @@ class VllmReranker:
         )
 
         self.instruction = instruction
-        self.max_length = max_length
 
     def __call__(
         self,
