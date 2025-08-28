@@ -8,9 +8,13 @@ from ..utils import SetUp
 def pipeline(
     config: DictConfig,
 ) -> None:
-    setup = SetUp(config)
+    @st.cache_resource(show_spinner=True)
+    def get_cached_manager():
+        setup = SetUp(config)
+        manager = setup.get_manager()
+        return manager
 
-    manager = setup.get_manager()
+    manager = get_cached_manager()
 
     st.title("Recipe AI Demo")
 
