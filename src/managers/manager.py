@@ -138,8 +138,8 @@ class RecommendationManager:
                     amount_str = str(amount)
                 table_data.append(
                     {
-                        self.target_column_name: ingredient,
-                        self.amount_column_name: amount_str,
+                        "성분 명칭": ingredient,
+                        "함량(%)": amount_str,
                     }
                 )
 
