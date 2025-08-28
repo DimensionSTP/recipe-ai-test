@@ -73,6 +73,10 @@ master_port:
 nccl_socket_ifname: lo
 nccl_ib_disable: 1
 
+input_mode:
+  lab_id: 1
+  ingredients: 2
+
 is_table: true
 
 project_name: ${package_name}-${usage}
