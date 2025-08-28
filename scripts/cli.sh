@@ -1,3 +1,3 @@
 #!/bin/bash
 
-python cli.py
+python cli.py is_table=False
