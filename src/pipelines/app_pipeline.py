@@ -18,14 +18,18 @@ def pipeline(
 
     st.title("Recipe AI Demo")
 
+    lab_number_recommendation_mode = "Lab number based recommendation"
+    ingredients_recommendation_mode = "Ingredients based recommendation"
+
     option = st.selectbox(
         "Please select the recommendation mode",
         [
-            "Lab number based recommendation",
+            lab_number_recommendation_mode,
+            ingredients_recommendation_mode,
         ],
     )
 
-    if option == "Lab number based recommendation":
+    if option == lab_number_recommendation_mode:
         lab_id = st.text_input("Enter the lab number to recommend for:")
         try:
             categories = (
@@ -68,7 +72,8 @@ def pipeline(
                 with st.spinner("Recommendation in progress..."):
                     try:
                         results = manager.recommend_and_summarize(
-                            lab_id=lab_id,
+                            input_value=lab_id,
+                            input_type=config.input_mode.lab_id,
                             category_value=category_value,
                         )
                     except Exception as e:
@@ -85,5 +90,69 @@ def pipeline(
                             st.markdown(results, unsafe_allow_html=True)
                         else:
                             st.write(results)
+    elif option == ingredients_recommendation_mode:
+        st.write("Enter ingredients one per line:")
+        ingredients_input = st.text_area(
+            "Ingredients list",
+            height=180,
+            placeholder="A\nB\nC\n...",
+        )
+
+        try:
+            categories = (
+                manager.index.df[manager.category_column_name]
+                .dropna()
+                .astype(str)
+                .unique()
+                .tolist()
+            )
+            categories = sorted(categories)
+        except Exception:
+            categories = []
+        category_options = ["ALL"] + categories
+        category_value = st.selectbox(
+            "Select a category (use 'ALL' to include all categories):",
+            options=category_options,
+            index=0,
+        )
+
+        recommend_column, reset_column = st.columns([1, 1])
+        with recommend_column:
+            run = st.button("recommend", type="primary")
+        with reset_column:
+            reset = st.button("reset")
+
+        if reset:
+            st.session_state.clear()
+            st.rerun()
+
+        if run:
+            if isinstance(category_value, str) and category_value.lower() == "all":
+                category_value = None
+
+            lines = [
+                line.strip() for line in ingredients_input.split("\n") if line.strip()
+            ]
+            ingredients_query = "|".join(lines)
+
+            with st.spinner("Recommendation in progress..."):
+                try:
+                    results = manager.recommend_and_summarize(
+                        input_value=ingredients_query,
+                        input_type=config.input_mode.ingredients,
+                        category_value=category_value,
+                    )
+                except Exception as e:
+                    st.error(f"Error during recommendation: {e}")
+                else:
+                    st.subheader("Summary recommendation results")
+                    if isinstance(results, (dict, list)):
+                        st.json(results)
+                    elif isinstance(results, str) and (
+                        "<br/>" in results or "<strong>" in results or "<p>" in results
+                    ):
+                        st.markdown(results, unsafe_allow_html=True)
+                    else:
+                        st.write(results)
     else:
-        raise ValueError("Invalid search mode")
+        raise ValueError("Invalid input mode")
