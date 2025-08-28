@@ -10,4 +10,5 @@ recommendation:
   amount_column_name: ${amount_column_name}
   score_column_name: ${score_column_name}
   rerank_top_k: ${top_k.rerank}
+  input_mode: ${input_mode}
   is_table: ${is_table}
