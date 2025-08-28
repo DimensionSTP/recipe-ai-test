@@ -66,6 +66,12 @@ def pipeline(
                         st.subheader("Summary recommendation results")
                         if isinstance(results, (dict, list)):
                             st.json(results)
+                        elif isinstance(results, str) and (
+                            "<br/>" in results
+                            or "<strong>" in results
+                            or "<p>" in results
+                        ):
+                            st.markdown(results, unsafe_allow_html=True)
                         else:
                             st.write(results)
     else:
