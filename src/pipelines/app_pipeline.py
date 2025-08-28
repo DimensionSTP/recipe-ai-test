@@ -27,11 +27,22 @@ def pipeline(
 
     if option == "Lab number based recommendation":
         lab_id = st.text_input("Enter the lab number to recommend for:")
-
-        category_value = st.text_input(
-            "Enter a category to restrict by (press Enter to 'all' to include all categories):",
-            value="",
-            placeholder="ex) SRG, MEP, VLC, ... ('all'이면 전체)",
+        try:
+            categories = (
+                manager.index.df[manager.category_column_name]
+                .dropna()
+                .astype(str)
+                .unique()
+                .tolist()
+            )
+            categories = sorted(categories)
+        except Exception:
+            categories = []
+        category_options = ["ALL"] + categories
+        category_value = st.selectbox(
+            "Select a category (use 'ALL' to include all categories):",
+            options=category_options,
+            index=0,
         )
 
         recommend_column, reset_column = st.columns([1, 1])
@@ -51,7 +62,7 @@ def pipeline(
             if not lab_id:
                 st.warning("Enter the lab number to recommend for.")
             else:
-                if category_value.lower() == "all":
+                if isinstance(category_value, str) and category_value.lower() == "all":
                     category_value = None
 
                 with st.spinner("Recommendation in progress..."):
