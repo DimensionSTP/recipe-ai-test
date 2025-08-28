@@ -19,6 +19,7 @@ class RecommendationManager:
         amount_column_name: str,
         score_column_name: str,
         rerank_top_k: int,
+        input_mode: Dict[str, int],
         is_table: bool,
     ) -> None:
         self.embedding = embedding
@@ -35,6 +36,7 @@ class RecommendationManager:
         self.score_column_name = score_column_name
 
         self.rerank_top_k = rerank_top_k
+        self.input_mode = input_mode
         self.is_table = is_table
 
     def retrieve(
@@ -80,12 +82,24 @@ class RecommendationManager:
 
     def recommend(
         self,
-        lab_id: str,
+        input_value: str,
+        input_type: str,
         category_value: Optional[str],
     ) -> Optional[List[Dict[str, Any]]]:
-        query = self.index.df[self.index.df[self.lab_id_column_name] == lab_id][
-            self.target_column_name
-        ]
+        if input_type == self.input_mode.lab_id:
+            series = self.index.df[
+                self.index.df[self.lab_id_column_name] == input_value
+            ][self.target_column_name]
+            if series.empty:
+                return None
+            query = series.iloc[0]
+        elif input_type == self.input_mode.ingredients:
+            query = input_value
+        else:
+            raise ValueError(
+                f"Invalid input_type. Use {self.input_mode.lab_id} or {self.input_mode.ingredients}."
+            )
+
         candidates = self.retrieve(query=query)
         if candidates is None:
             return None
@@ -182,11 +196,13 @@ class RecommendationManager:
 
     def recommend_and_summarize(
         self,
-        lab_id: str,
+        input_value: str,
+        input_type: str,
         category_value: Optional[str],
     ) -> str:
         reranked_candidates = self.recommend(
-            lab_id=lab_id,
+            input_value=input_value,
+            input_type=input_type,
             category_value=category_value,
         )
         if reranked_candidates is None:
