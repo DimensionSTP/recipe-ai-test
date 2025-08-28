@@ -8,3 +8,4 @@ recommendation:
   target_column_name: ${target_column_name}
   score_column_name: ${score_column_name}
   rerank_top_k: ${top_k.rerank}
+  is_table: ${is_table}
