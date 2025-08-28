@@ -173,7 +173,7 @@ class RecommendationManager:
             html_block = (
                 f"<strong>{lab_id}{score_text}</strong><br/>"
                 f"<strong>{category_text}</strong><br/>"
-                f"{html_table}"
+                f"<details><summary>성분표 보기</summary>{html_table}</details>"
             )
 
             html_blocks.append(html_block)
