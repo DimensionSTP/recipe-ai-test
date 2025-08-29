@@ -33,9 +33,10 @@ generator:
   seed: ${seed}
   max_length: ${generator_max_length}
   gpu_memory_utilization: ${gpu_memory_utilization.generator}
+  is_table: ${is_table}
+  instruction: ${instruction.generator}
   role_column_name: ${role_column_name}
   content_column_name: ${content_column_name}
-  instruction: ${instruction.generator}
   max_new_tokens: ${max_new_tokens}
   do_sample: ${do_sample}
   generation_config: ${generation_config}
