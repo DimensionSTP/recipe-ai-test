@@ -54,7 +54,9 @@ generation_config:
 instruction:
   embedding: "Given a cosmetic ingredients listed in the given order of content, find the ingredient list that matches the most formulation, application, and base."
   reranker: "Given a cosmetic ingredients listed in the given order of content, find the ingredient list that matches the most formulation, application, and base."
-  generator: "Given a cosmetic ingredients listed in the given order of content, find the ingredient list that matches the most formulation, application, and base."
+  generator:
+    base: "Given a cosmetic ingredients listed in the given order of content, find the ingredient list that matches the most formulation, application, and base."
+    with_tables: "Given a cosmetic ingredients listed in the given order of content, find the ingredient list that matches the most formulation, application, and base."
 
 top_k:
   retrieval: 50
