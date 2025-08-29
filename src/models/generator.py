@@ -84,9 +84,9 @@ class VllmGenerator:
 
     def __call__(
         self,
-        recommendation: str,
+        recommendations: str,
     ) -> str:
-        prompt = self.get_prompt(recommendation=recommendation)
+        prompt = self.get_prompt(recommendations=recommendations)
         generation = self.generate(prompt=prompt)
         return generation
 
@@ -103,7 +103,7 @@ class VllmGenerator:
 
     def get_prompt(
         self,
-        recommendation: str,
+        recommendations: str,
     ) -> str:
         conversation = [
             {
@@ -112,7 +112,7 @@ class VllmGenerator:
             },
             {
                 self.role_column_name: "user",
-                self.content_column_name: recommendation,
+                self.content_column_name: recommendations,
             },
         ]
 
