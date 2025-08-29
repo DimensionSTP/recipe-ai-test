@@ -12,3 +12,7 @@ recommendation:
   rerank_top_k: ${top_k.rerank}
   input_mode: ${input_mode}
   is_table: ${is_table}
+
+report:
+  _target_: src.managers.ReportManager
+  generator: ${model.generator}
