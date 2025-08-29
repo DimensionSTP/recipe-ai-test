@@ -75,10 +75,10 @@ def pipeline(
         if category_value.lower() == "all":
             category_value = None
 
-        results = manager.recommend_and_summarize(
+        recommendations = recommendation_manager.recommend(
             input_value=query_value,
             input_type=query_type,
             category_value=category_value,
         )
-        print("\nSummary recommendation results")
-        print(results)
+        print("\nSummary of AI recommendations")
+        print(recommendations)
