@@ -1,4 +1,4 @@
-from .manager import RecommendationManager
+from .recommend_manager import RecommendationManager
 
 __all__ = [
     "RecommendationManager",
