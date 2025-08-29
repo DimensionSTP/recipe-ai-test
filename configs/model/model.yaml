@@ -31,7 +31,7 @@ generator:
   model_id: ${model_id.generator}
   num_gpus: ${num_gpus}
   seed: ${seed}
-  max_length: ${max_length}
+  max_length: ${generator_max_length}
   gpu_memory_utilization: ${gpu_memory_utilization.generator}
   role_column_name: ${role_column_name}
   content_column_name: ${content_column_name}
