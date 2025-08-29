@@ -64,7 +64,7 @@ class VllmEmbedding:
         self,
         query: str,
     ) -> np.ndarray:
-        input_text = self.get_detailed_instruct(query=query)
+        input_text = self.get_detailed_instruction(query=query)
         output = self.llm.embed(input_text)
         embedding = output[0].outputs.embedding
         embedding = np.array(
@@ -73,8 +73,9 @@ class VllmEmbedding:
         )
         return embedding
 
-    def get_detailed_instruct(
+    def get_detailed_instruction(
         self,
         query: str,
     ) -> str:
-        return f"Instruct: {self.instruction}\nQuery:{query}"
+        instruction = f"Instruct: {self.instruction}\nQuery:{query}"
+        return instruction
