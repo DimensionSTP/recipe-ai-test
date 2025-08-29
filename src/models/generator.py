@@ -14,9 +14,10 @@ class VllmGenerator:
         seed: int,
         max_length: int,
         gpu_memory_utilization: float,
+        is_table: bool,
+        instruction: Dict[str, str],
         role_column_name: str,
         content_column_name: str,
-        instruction: Dict[str, str],
         max_new_tokens: int,
         do_sample: bool,
         generation_config: Dict[str, Any],
@@ -63,9 +64,10 @@ class VllmGenerator:
         if self.tokenizer.pad_token_id is None:
             self.tokenizer.pad_token_id = self.tokenizer.eos_token_id
 
+        self.is_table = is_table
+        self.instruction = instruction
         self.role_column_name = role_column_name
         self.content_column_name = content_column_name
-        self.instruction = instruction
 
         if do_sample:
             self.generation_config = generation_config
@@ -85,12 +87,8 @@ class VllmGenerator:
     def __call__(
         self,
         recommendations: str,
-        is_table: bool,
     ) -> str:
-        prompt = self.get_prompt(
-            recommendations=recommendations,
-            is_table=is_table,
-        )
+        prompt = self.get_prompt(recommendations=recommendations)
         generation = self.generate(prompt=prompt)
         return generation
 
@@ -108,9 +106,8 @@ class VllmGenerator:
     def get_prompt(
         self,
         recommendations: str,
-        is_table: bool,
     ) -> str:
-        if is_table:
+        if self.is_table:
             instruction = self.instruction["with_tables"]
         else:
             instruction = self.instruction["base"]
