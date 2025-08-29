@@ -5,18 +5,12 @@ class ReportManager:
     def __init__(
         self,
         generator: VllmGenerator,
-        is_table: bool,
     ) -> None:
         self.generator = generator
-        self.is_table = is_table
 
     def generate(
         self,
-        recommendation: str,
-        is_table: bool,
+        recommendations: str,
     ) -> str:
-        report = self.generator(
-            recommendations=recommendation,
-            is_table=is_table,
-        )
+        report = self.generator(recommendations=recommendations)
         return report
