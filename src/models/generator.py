@@ -85,8 +85,12 @@ class VllmGenerator:
     def __call__(
         self,
         recommendations: str,
+        is_table: bool,
     ) -> str:
-        prompt = self.get_prompt(recommendations=recommendations)
+        prompt = self.get_prompt(
+            recommendations=recommendations,
+            is_table=is_table,
+        )
         generation = self.generate(prompt=prompt)
         return generation
 
@@ -104,11 +108,17 @@ class VllmGenerator:
     def get_prompt(
         self,
         recommendations: str,
+        is_table: bool,
     ) -> str:
+        if is_table:
+            instruction = self.instruction["with_tables"]
+        else:
+            instruction = self.instruction["base"]
+
         conversation = [
             {
                 self.role_column_name: "system",
-                self.content_column_name: self.instruction,
+                self.content_column_name: instruction,
             },
             {
                 self.role_column_name: "user",
