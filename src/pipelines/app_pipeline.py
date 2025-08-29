@@ -33,7 +33,9 @@ def pipeline(
         lab_id = st.text_input("Enter the lab number to recommend for:")
         try:
             categories = (
-                manager.index.df[manager.category_column_name]
+                recommendation_manager.index.df[
+                    recommendation_manager.category_column_name
+                ]
                 .dropna()
                 .astype(str)
                 .unique()
@@ -79,17 +81,20 @@ def pipeline(
                     except Exception as e:
                         st.error(f"Error during recommendation: {e}")
                     else:
-                        st.subheader("Summary recommendation results")
-                        if isinstance(results, (dict, list)):
-                            st.json(results)
-                        elif isinstance(results, str) and (
-                            "<br/>" in results
-                            or "<strong>" in results
-                            or "<p>" in results
+                        st.subheader("Summary of AI recommendations")
+                        if isinstance(recommendations, (dict, list)):
+                            st.json(recommendations)
+                        elif isinstance(recommendations, str) and (
+                            "<br/>" in recommendations
+                            or "<strong>" in recommendations
+                            or "<p>" in recommendations
                         ):
-                            st.markdown(results, unsafe_allow_html=True)
+                            st.markdown(
+                                recommendations,
+                                unsafe_allow_html=True,
+                            )
                         else:
-                            st.write(results)
+                            st.write(recommendations)
     elif option == ingredients_recommendation_mode:
         st.write("Enter ingredients one per line:")
         ingredients_input = st.text_area(
@@ -100,7 +105,9 @@ def pipeline(
 
         try:
             categories = (
-                manager.index.df[manager.category_column_name]
+                recommendation_manager.index.df[
+                    recommendation_manager.category_column_name
+                ]
                 .dropna()
                 .astype(str)
                 .unique()
@@ -145,14 +152,19 @@ def pipeline(
                 except Exception as e:
                     st.error(f"Error during recommendation: {e}")
                 else:
-                    st.subheader("Summary recommendation results")
-                    if isinstance(results, (dict, list)):
-                        st.json(results)
-                    elif isinstance(results, str) and (
-                        "<br/>" in results or "<strong>" in results or "<p>" in results
+                    st.subheader("Summary of AI recommendations")
+                    if isinstance(recommendations, (dict, list)):
+                        st.json(recommendations)
+                    elif isinstance(recommendations, str) and (
+                        "<br/>" in recommendations
+                        or "<strong>" in recommendations
+                        or "<p>" in recommendations
                     ):
-                        st.markdown(results, unsafe_allow_html=True)
+                        st.markdown(
+                            recommendations,
+                            unsafe_allow_html=True,
+                        )
                     else:
-                        st.write(results)
+                        st.write(recommendations)
     else:
         raise ValueError("Invalid input mode")
