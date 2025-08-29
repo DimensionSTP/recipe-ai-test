@@ -9,6 +9,7 @@ def pipeline(
     setup = SetUp(config)
 
     recommendation_manager = setup.get_manager(manager_type="recommendation")
+    report_manager = setup.get_manager(manager_type="report")
 
     print("Recipe AI Demo")
 
@@ -82,3 +83,7 @@ def pipeline(
         )
         print("\nSummary of AI recommendations")
         print(recommendations)
+
+        report = report_manager.generate(recommendations=recommendations)
+        print("\nSummary of AI report")
+        print(report)
