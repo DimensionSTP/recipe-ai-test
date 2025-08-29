@@ -13,8 +13,11 @@ class SetUp:
     ) -> None:
         self.config = config
 
-    def get_manager(self) -> Union[RecommendationManager, None]:
+    def get_manager(
+        self,
+        manager_type: str,
+    ) -> Union[RecommendationManager, None]:
         manager: RecommendationManager = instantiate(
-            self.config.manager[self.config.manager_type],
+            self.config.manager[manager_type],
         )
         return manager
