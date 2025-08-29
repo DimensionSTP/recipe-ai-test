@@ -78,9 +78,10 @@ class RecommendationManager:
             key=lambda x: x[self.score_column_name],
             reverse=True,
         )
-        return candidates[: self.rerank_top_k]
+        reranked_candidates = candidates[: self.rerank_top_k]
+        return reranked_candidates
 
-    def recommend(
+    def retrieve_and_rerank(
         self,
         input_value: str,
         input_type: str,
@@ -114,7 +115,7 @@ class RecommendationManager:
 
         return reranked_candidates
 
-    def create_html_table(
+    def create_html_tables(
         self,
         reranked_candidates: List[Dict[str, Any]],
     ) -> str:
@@ -192,27 +193,31 @@ class RecommendationManager:
 
             html_blocks.append(html_block)
 
-        return "\n<br/><br/>\n".join(html_blocks)
+        html_tables = "\n<br/><br/>\n".join(html_blocks)
+        return html_tables
 
-    def recommend_and_summarize(
+    def recommend(
         self,
         input_value: str,
         input_type: str,
         category_value: Optional[str],
     ) -> str:
-        reranked_candidates = self.recommend(
+        reranked_candidates = self.retrieve_and_rerank(
             input_value=input_value,
             input_type=input_type,
             category_value=category_value,
         )
         if reranked_candidates is None:
-            return "No matching lab_id found."
+            recommendation = "No matching lab_id found."
+            return recommendation
 
         if self.is_table:
-            return self.create_html_table(reranked_candidates)
+            recommendation = self.create_html_tables(reranked_candidates)
+            return recommendation
         else:
             lines = [
                 f"{i+1}. {reranked_candidate[self.lab_id_column_name]} (score: {reranked_candidate[self.score_column_name]:.3f})"
                 for i, reranked_candidate in enumerate(reranked_candidates)
             ]
-            return "\n".join(lines)
+            recommendation = "\n".join(lines)
+            return recommendation
