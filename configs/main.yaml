@@ -10,8 +10,6 @@ project_dir: ${oc.env:PROJECT_DIR}/${package_name}
 connected_dir: ${oc.env:CONNECTED_DIR}/${package_name}
 usage: RecipeAI
 
-manager_type: recommendation
-
 seed: 2025
 
 data_path: ${connected_dir}/data
