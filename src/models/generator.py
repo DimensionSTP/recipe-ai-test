@@ -16,7 +16,7 @@ class VllmGenerator:
         gpu_memory_utilization: float,
         role_column_name: str,
         content_column_name: str,
-        instruction: str,
+        instruction: Dict[str, str],
         max_new_tokens: int,
         do_sample: bool,
         generation_config: Dict[str, Any],
