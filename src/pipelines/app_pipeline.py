@@ -71,7 +71,7 @@ def pipeline(
 
                 with st.spinner("Recommendation in progress..."):
                     try:
-                        results = manager.recommend_and_summarize(
+                        recommendations = recommendation_manager.recommend(
                             input_value=lab_id,
                             input_type=config.input_mode.lab_id,
                             category_value=category_value,
@@ -137,7 +137,7 @@ def pipeline(
 
             with st.spinner("Recommendation in progress..."):
                 try:
-                    results = manager.recommend_and_summarize(
+                    recommendations = recommendation_manager.recommend(
                         input_value=ingredients_query,
                         input_type=config.input_mode.ingredients,
                         category_value=category_value,
