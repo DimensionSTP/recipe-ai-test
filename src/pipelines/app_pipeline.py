@@ -9,12 +9,12 @@ def pipeline(
     config: DictConfig,
 ) -> None:
     @st.cache_resource(show_spinner=True)
-    def get_cached_manager():
+    def get_cached_manager(manager_type: str):
         setup = SetUp(config)
-        manager = setup.get_manager()
+        manager = setup.get_manager(manager_type=manager_type)
         return manager
 
-    manager = get_cached_manager()
+    recommendation_manager = get_cached_manager(manager_type="recommendation")
 
     st.title("Recipe AI Demo")
 
