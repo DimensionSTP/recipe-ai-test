@@ -93,13 +93,13 @@ class VllmReranker:
         query: str,
         candidates: List[str],
     ) -> List[float]:
-        score = self.get_score(
+        scores = self.get_scores(
             query=query,
             candidates=candidates,
         )
-        return score
+        return scores
 
-    def get_score(
+    def get_scores(
         self,
         query: str,
         candidates: List[str],
