@@ -15,6 +15,7 @@ def pipeline(
         return manager
 
     recommendation_manager = get_cached_manager(manager_type="recommendation")
+    report_manager = get_cached_manager(manager_type="report")
 
     st.title("Recipe AI Demo")
 
@@ -81,20 +82,32 @@ def pipeline(
                     except Exception as e:
                         st.error(f"Error during recommendation: {e}")
                     else:
-                        st.subheader("Summary of AI recommendations")
-                        if isinstance(recommendations, (dict, list)):
-                            st.json(recommendations)
-                        elif isinstance(recommendations, str) and (
-                            "<br/>" in recommendations
-                            or "<strong>" in recommendations
-                            or "<p>" in recommendations
-                        ):
-                            st.markdown(
-                                recommendations,
-                                unsafe_allow_html=True,
-                            )
-                        else:
-                            st.write(recommendations)
+                        st.session_state["last_recommendations"] = recommendations
+                        st.session_state["last_report"] = None
+        if st.session_state.get("last_recommendations") is not None:
+            st.subheader("Summary of AI recommendations")
+            _rec = st.session_state["last_recommendations"]
+            if isinstance(_rec, (dict, list)):
+                st.json(_rec)
+            elif isinstance(_rec, str) and (
+                "<br/>" in _rec or "<strong>" in _rec or "<p>" in _rec
+            ):
+                st.markdown(_rec, unsafe_allow_html=True)
+            else:
+                st.write(_rec)
+            if st.button("generate report", key="gen_report_lab"):
+                with st.spinner("Report generation in progress..."):
+                    try:
+                        report = report_manager.generate(
+                            recommendations=st.session_state["last_recommendations"],
+                        )
+                    except Exception as e:
+                        st.error(f"Error during report generation: {e}")
+                    else:
+                        st.session_state["last_report"] = report
+        if st.session_state.get("last_report") is not None:
+            st.subheader("Summary of AI report")
+            st.write(st.session_state["last_report"])
     elif option == ingredients_recommendation_mode:
         st.write("Enter ingredients one per line:")
         ingredients_input = st.text_area(
@@ -152,19 +165,31 @@ def pipeline(
                 except Exception as e:
                     st.error(f"Error during recommendation: {e}")
                 else:
-                    st.subheader("Summary of AI recommendations")
-                    if isinstance(recommendations, (dict, list)):
-                        st.json(recommendations)
-                    elif isinstance(recommendations, str) and (
-                        "<br/>" in recommendations
-                        or "<strong>" in recommendations
-                        or "<p>" in recommendations
-                    ):
-                        st.markdown(
-                            recommendations,
-                            unsafe_allow_html=True,
+                    st.session_state["last_recommendations"] = recommendations
+                    st.session_state["last_report"] = None
+        if st.session_state.get("last_recommendations") is not None:
+            st.subheader("Summary of AI recommendations")
+            _rec = st.session_state["last_recommendations"]
+            if isinstance(_rec, (dict, list)):
+                st.json(_rec)
+            elif isinstance(_rec, str) and (
+                "<br/>" in _rec or "<strong>" in _rec or "<p>" in _rec
+            ):
+                st.markdown(_rec, unsafe_allow_html=True)
+            else:
+                st.write(_rec)
+            if st.button("generate report", key="gen_report_ing"):
+                with st.spinner("Report generation in progress..."):
+                    try:
+                        report = report_manager.generate(
+                            recommendations=st.session_state["last_recommendations"],
                         )
+                    except Exception as e:
+                        st.error(f"Error during report generation: {e}")
                     else:
-                        st.write(recommendations)
+                        st.session_state["last_report"] = report
+        if st.session_state.get("last_report") is not None:
+            st.subheader("Summary of AI report")
+            st.write(st.session_state["last_report"])
     else:
         raise ValueError("Invalid input mode")
