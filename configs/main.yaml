@@ -32,7 +32,7 @@ model_family: Qwen/Qwen3
 model_id:
   embedding: ${model_family}-Embedding-4B
   reranker: ${model_family}-Reranker-4B
-  generator: ${model_family}-8B
+  generator: ${model_family}-4B-Instruct-2507
 
 dim: 2560
 num_gpus: ${oc.decode:${oc.env:DEVICES}}
