@@ -100,7 +100,7 @@ class VllmGenerator:
             prompts=[prompt],
             sampling_params=self.sampling_params,
         )
-        generation = output.outputs[0].text.strip()
+        generation = output[0].outputs[0].text.strip()
         return generation
 
     def get_prompt(
