@@ -38,9 +38,9 @@ dim: 2560
 num_gpus: ${oc.decode:${oc.env:DEVICES}}
 
 gpu_memory_utilization:
-  embedding: 0.45
-  reranker: 0.45
-  generator: 0.9
+  embedding: 0.3
+  reranker: 0.3
+  generator: 0.35
 
 max_length: 4096
 generator_max_length: 16384
