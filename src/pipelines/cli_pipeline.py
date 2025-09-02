@@ -84,6 +84,29 @@ def pipeline(
         print("\nSummary of AI recommendations")
         print(recommendations)
 
-        report = report_manager.generate(recommendations=recommendations)
-        print("\nSummary of AI report")
-        print(report)
+        print("\nWhat would you like to do next?")
+        print("  1) Generate report for these recommendations")
+        print("  2) Start over and enter new input")
+        print("  3) Quit")
+
+        choice = (
+            input(
+                "Enter 1 to generate report, 2 to start over (or 'q', 'quit', 'exit' to quit): "
+            )
+            .strip()
+            .lower()
+        )
+
+        if choice in {"q", "quit", "exit"}:
+            print("Exiting. Bye!")
+            break
+        elif choice == "1":
+            report = report_manager.generate(recommendations=recommendations)
+            print("\nSummary of AI report")
+            print(report)
+            continue
+        elif choice == "2":
+            continue
+        else:
+            print("Invalid choice. Starting over.")
+            continue
