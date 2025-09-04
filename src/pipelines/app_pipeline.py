@@ -1,6 +1,7 @@
 from typing import Dict, Optional, Union
 
 import streamlit as st
+import requests
 
 from omegaconf import DictConfig
 
@@ -11,6 +12,48 @@ from ..utils import SetUp
 def pipeline(
     config: DictConfig,
 ) -> None:
+    def _headers() -> Dict[str, str]:
+        header = {"Content-Type": "application/json"}
+        if config.api_key:
+            header["Authorization"] = f"Bearer {config.api_key}"
+        return header
+
+    def remote_recommend(
+        input_value: str,
+        input_type: str,
+        category_value: Optional[str],
+    ) -> Optional[str]:
+        if not config.remote_api_base_recommend:
+            raise RuntimeError("remote_api_base_recommend is not set.")
+        payload = {
+            "input_value": input_value,
+            "input_type": input_type,
+            "category_value": category_value,
+        }
+        r = requests.post(
+            f"{config.remote_api_base_recommend}/recommend",
+            json=payload,
+            headers=_headers(),
+            timeout=180,
+        )
+        r.raise_for_status()
+        data = r.json()
+        return data.get("result", data)
+
+    def remote_report(recommendations: str) -> str:
+        if not config.remote_api_base_report:
+            raise RuntimeError("remote_api_base_report is not set.")
+        payload = {"recommendations": recommendations}
+        r = requests.post(
+            f"{config.remote_api_base_report}/report",
+            json=payload,
+            headers=_headers(),
+            timeout=240,
+        )
+        r.raise_for_status()
+        data = r.json()
+        return data.get("text", "")
+
     @st.cache_resource(show_spinner=True)
     def get_cached_manager(
         manager_type: str,
@@ -81,11 +124,18 @@ def pipeline(
 
                 with st.spinner("Recommendation in progress..."):
                     try:
-                        recommendations = recommendation_manager.recommend(
-                            input_value=lab_id,
-                            input_type=config.input_mode.lab_id,
-                            category_value=category_value,
-                        )
+                        if recommendation_manager is not None:
+                            recommendations = recommendation_manager.recommend(
+                                input_value=lab_id,
+                                input_type=config.input_mode.lab_id,
+                                category_value=category_value,
+                            )
+                        else:
+                            recommendations = remote_recommend(
+                                input_value=lab_id,
+                                input_type=config.input_mode.lab_id,
+                                category_value=category_value,
+                            )
                     except Exception as e:
                         st.error(f"Error during recommendation: {e}")
                     else:
@@ -105,9 +155,18 @@ def pipeline(
             if st.button("generate report", key="gen_report_lab"):
                 with st.spinner("Report generation in progress..."):
                     try:
-                        report = report_manager.generate(
-                            recommendations=st.session_state["last_recommendations"],
-                        )
+                        if report_manager is not None:
+                            report = report_manager.generate(
+                                recommendations=st.session_state[
+                                    "last_recommendations"
+                                ],
+                            )
+                        else:
+                            report = remote_report(
+                                recommendations=st.session_state[
+                                    "last_recommendations"
+                                ],
+                            )
                     except Exception as e:
                         st.error(f"Error during report generation: {e}")
                     else:
