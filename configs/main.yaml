@@ -80,6 +80,11 @@ input_mode:
 
 is_table: true
 
+remote_mode: false
+api_key: ${oc.env:API_KEY}
+remote_api_base_recommend: ${oc.env:REMOTE_API_BASE_RECOMMEND}
+remote_api_base_report: ${oc.env:REMOTE_API_BASE_REPORT}
+
 project_name: ${package_name}-${usage}
 
 run_name: ${project_name}
