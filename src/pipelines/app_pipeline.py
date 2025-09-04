@@ -1,7 +1,10 @@
+from typing import Dict, Optional, Union
+
 import streamlit as st
 
 from omegaconf import DictConfig
 
+from ..managers import RecommendationManager, ReportManager
 from ..utils import SetUp
 
 
@@ -9,7 +12,11 @@ def pipeline(
     config: DictConfig,
 ) -> None:
     @st.cache_resource(show_spinner=True)
-    def get_cached_manager(manager_type: str):
+    def get_cached_manager(
+        manager_type: str,
+    ) -> Optional[Union[RecommendationManager, ReportManager]]:
+        if config.remote_mode:
+            return None
         setup = SetUp(config)
         manager = setup.get_manager(manager_type=manager_type)
         return manager
