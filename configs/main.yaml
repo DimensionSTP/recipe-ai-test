@@ -79,6 +79,11 @@ api_key: ${oc.env:API_KEY}
 remote_api_base_recommend: ${oc.env:REMOTE_API_BASE_RECOMMEND}
 remote_api_base_report: ${oc.env:REMOTE_API_BASE_REPORT}
 
+server:
+  host: ${oc.env:SERVER_HOST}
+  recommend_port: ${oc.env:RECOMMEND_SERVER_PORT}
+  report_port: ${oc.env:REPORT_SERVER_PORT}
+
 project_name: ${package_name}-${usage}
 
 run_name: ${project_name}
