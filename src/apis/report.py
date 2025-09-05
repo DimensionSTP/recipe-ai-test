@@ -28,8 +28,6 @@ class ReportOut(BaseModel):
 app = FastAPI(title="Recipe-AI Report API")
 
 API_KEY = os.getenv("API_KEY", "")
-SERVER_HOST = os.getenv("SERVER_HOST", "0.0.0.0")
-SERVER_PORT = int(os.getenv("SERVER_PORT", "9002"))
 
 
 def _auth(authorization: str = Header(default="")) -> None:
@@ -86,8 +84,8 @@ def main(
 
     uvicorn.run(
         app,
-        host=SERVER_HOST,
-        port=SERVER_PORT,
+        host=config.server.host,
+        port=config.server.report_port,
         workers=1,
         log_level="info",
     )
