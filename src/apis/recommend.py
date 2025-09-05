@@ -29,8 +29,6 @@ class RecommendOut(BaseModel):
 app = FastAPI(title="Recipe-AI Recommend API")
 
 API_KEY = os.getenv("API_KEY", "")
-SERVER_HOST = os.getenv("SERVER_HOST", "0.0.0.0")
-SERVER_PORT = int(os.getenv("SERVER_PORT", "9001"))
 
 
 def _auth(authorization: str = Header(default="")) -> None:
@@ -85,8 +83,8 @@ def main(
 
     uvicorn.run(
         app,
-        host=SERVER_HOST,
-        port=SERVER_PORT,
+        host=config.server.host,
+        port=config.server.recommend_port,
         workers=1,
         log_level="info",
     )
